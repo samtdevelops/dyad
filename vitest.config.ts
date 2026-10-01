@@ -8,5 +8,10 @@ export default defineConfig({
   test: {
     include: ["**/*.test.ts"],
     exclude: ["node_modules", ".next", "e2e"],
+    coverage: {
+      provider: "v8",
+      include: ["app/**", "lib/**"],
+      reporter: ["text-summary", "html", "json-summary"],
+    },
   },
 });
