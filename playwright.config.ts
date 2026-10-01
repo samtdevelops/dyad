@@ -14,7 +14,10 @@ export default defineConfig({
     baseURL: E2E_BASE_URL,
     trace: "on-first-retry",
   },
-  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "mobile", use: { ...devices["Pixel 7"] } },
+  ],
   webServer: {
     // Always a dedicated server on its own port and database, never the dev server
     // CI tests the production build; locally a dev server is faster to start.
