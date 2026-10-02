@@ -35,7 +35,10 @@ export async function signUp(
       error instanceof APIError &&
       error.body?.code?.startsWith("USER_ALREADY_EXISTS")
     ) {
-      return { error: "An account with this email already exists", values };
+      return {
+        fieldErrors: { email: ["An account with this email already exists"] },
+        values,
+      };
     }
     throw error;
   }

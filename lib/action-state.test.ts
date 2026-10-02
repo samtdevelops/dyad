@@ -8,7 +8,7 @@ describe("validationError", () => {
       name: z.string().min(1, "Name is required"),
       age: z.number(),
     });
-    
+
     const result = schema.safeParse({ name: "", age: 1 });
     if (result.success) throw new Error("expected a validation error");
 

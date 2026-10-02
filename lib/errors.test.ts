@@ -37,7 +37,7 @@ describe("isUniqueViolation", () => {
     ).toBe(false);
 
     expect(isUniqueViolation(new Error("boom"), "one_in_progress")).toBe(false);
-    
+
     expect(isUniqueViolation(undefined, "one_in_progress")).toBe(false);
   });
 });
