@@ -74,7 +74,13 @@ test("rejects a duplicate email on sign up", async ({ page }) => {
   await expect(page).toHaveURL("/login");
 
   await signUp(page, "Second", email);
-  await expect(page.getByText("User already exists")).toBeVisible();
+  await expect(
+    page.getByText("An account with this email already exists"),
+  ).toBeVisible();
+  await expect(page.getByLabel("Email")).toHaveAttribute(
+    "aria-invalid",
+    "true",
+  );
   await expect(page).toHaveURL("/signup");
 });
 

@@ -13,9 +13,20 @@ concurrency:
 permissions:
   contents: read
 
-# CI-only values; the database is the throwaway service container below.
-# Playwright's global setup migrates and resets it (see e2e/global-setup.ts).
-# Only needs to pass lib/env.ts validation for build/drizzle steps
+# Set for every step of every job. 
+# They're CI-only throwaway values.
+#
+# - DATABASE_URL, BETTER_AUTH_SECRET, BETTER_AUTH_URL: lib/env.ts validates
+#   all three as soon as it's imported, and fails if any is missing. That
+#   happens in `npm run build` (the app's modules are loaded) and in the
+#   drizzle-kit steps (drizzle.config.ts imports lib/env). At E2E time, `next start` also uses BETTER_AUTH_SECRET to
+#   sign session cookies.
+# - TEST_DATABASE_URL: read by e2e/test-env.ts. Playwright's global setup
+#   migrates and empties this database (e2e/global-setup.ts), and
+#   playwright.config.ts passes it to the app server as its DATABASE_URL,
+#   along with BETTER_AUTH_URL set to the test server's address. So during
+#   E2E the app talks to this database. The value matches test-env.ts's local
+#   default; it's set here so CI doesn't depend on that default.
 env:
   DATABASE_URL: postgresql://postgres:postgres@localhost:5432/dyad_test
   TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/dyad_test
@@ -80,14 +91,29 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     services:
+      # A fresh Postgres container for this job only, thrown away afterwards
       postgres:
         image: postgres:18-alpine
+        # Read by the official image on its first start (empty data folder):
+        # it creates the POSTGRES_USER superuser with POSTGRES_PASSWORD, and an
+        # empty POSTGRES_DB database.
+        # - User and password must match the URLs in `env:` above: they're the
+        #   only login the container has.
+        # - The database name should match too, but nothing breaks if it
+        #   doesn't: e2e/global-setup.ts creates the URL's database if it's
+        #   missing (as it does locally). It must end in "_test", or the
+        #   global setup refuses to reset it.
+        # Tables come later, from the migrations in e2e/global-setup.ts.
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: dyad_test
+        # Steps run on the runner itself, not in a container, so expose the
+        # port there.
         ports:
           - 5432:5432
+        # GitHub waits until this check passes before running any step,
+        # so the database is accepting connections when E2E starts
         options: >-
           --health-cmd "pg_isready -U postgres -d dyad_test"
           --health-interval 5s

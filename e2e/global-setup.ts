@@ -21,9 +21,13 @@ export default async function globalSetup() {
   const client = new Client({ connectionString: TEST_DATABASE_URL });
   await client.connect();
   try {
+    // Bring the tables structure up to date. On a brand-new
+    // database that creates every table; on an existing one it applies only
+    // new migrations, or does nothing if it's already current.
     await migrate(drizzle(client), { migrationsFolder: "./drizzle" });
 
-    // Truncate all tables (migration history lives in the "drizzle" schema)
+    // Then remove the data left over from previous runs. TRUNCATE empties
+    // the tables but keeps them (and their columns, indexes, constraints).
     const { rows } = await client.query<{ tablename: string }>(
       "SELECT tablename FROM pg_tables WHERE schemaname = 'public'",
     );
