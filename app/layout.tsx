@@ -8,7 +8,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Dyad",
+  title: { template: "%s | Dyad", default: "Dyad" },
   description:
     "Workout logging with previous-session references and smart weight-increase suggestions.",
 };

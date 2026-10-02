@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { signOut } from "@/app/(auth)/actions";
 import { requireUser } from "@/lib/dal";
 
-export const metadata: Metadata = { title: "Dashboard | Dyad" };
+export const metadata: Metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
   const user = await requireUser();
