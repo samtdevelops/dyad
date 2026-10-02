@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { type ComponentProps, useActionState } from "react";
 import { type AuthFormState, signIn, signUp } from "./actions";
 
 const copy = {
@@ -100,7 +100,7 @@ function Field({
   label: string;
   name: string;
   errors?: string[];
-} & React.InputHTMLAttributes<HTMLInputElement>) {
+} & ComponentProps<"input">) {
   const errorId = `${name}-error`;
   return (
     <div className="flex flex-col gap-1">
