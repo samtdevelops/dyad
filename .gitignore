@@ -8,3 +8,4 @@ docs/
 *.local
 .env
 .DS_Store
+todo
