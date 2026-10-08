@@ -1,0 +1,10 @@
+# Directories
+node_modules/
+dist/
+docs/
+
+# Files
+*.tsbuildinfo
+*.local
+.env
+.DS_Store
