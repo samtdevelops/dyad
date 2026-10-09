@@ -11,6 +11,8 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 	},
+	// better-auth prints to the console by default; send it through our logger so its logs
+	// are structured JSON like Fastify's.
 	logger: {
 		log: (level, message, ...args) => {
 			const err = args.find((arg) => arg instanceof Error);

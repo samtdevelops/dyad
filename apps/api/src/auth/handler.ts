@@ -6,7 +6,7 @@ const handleAuth = toNodeHandler(auth);
 
 export const authHandler: FastifyPluginAsync = async (app) => {
 	// A request body can only be read once, and better-auth reads it from the raw
-	// request itself, so stop Fastify parsing it first. Only affects this plugin.
+	// request itself, so stop Fastify parsing it first.
 	app.removeAllContentTypeParsers();
 	app.addContentTypeParser("*", (_request, _payload, done) => done(null));
 

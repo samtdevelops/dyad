@@ -14,6 +14,7 @@ export const requireAuth: preHandlerAsyncHookHandler = async (request) => {
 	const session = await auth.api.getSession({
 		headers: fromNodeHeaders(request.headers),
 	});
+
 	if (!session) {
 		throw new HttpError(401, "UNAUTHORIZED", "Not signed in");
 	}

@@ -2,7 +2,8 @@ packages:
   - apps/*
   - packages/*
 
+# pnpm blocks dependency install scripts unless approved here, since they can run arbitrary code.
 allowBuilds:
-  '@prisma/engines': true
-  esbuild: false
-  prisma: true
+  '@prisma/engines': true # downloads the schema engine binary that prisma migrate needs
+  esbuild: false # only re-checks a platform binary pnpm already installs
+  prisma: true # checks the Node version and environment
