@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "pnpm --filter @dyad/shared build && pnpm -r --parallel dev",
 		"build": "pnpm -r build",
+		"test": "pnpm -r test",
 		"lint": "biome check",
 		"lint:fix": "biome check --write"
 	},

@@ -11,6 +11,11 @@ export const auth = betterAuth({
 	emailAndPassword: {
 		enabled: true,
 	},
+	// better-auth turns its origin and CSRF checks off when NODE_ENV=test. Keep them on so tests
+	// exercise the same protection as production.
+	advanced: {
+		disableOriginCheck: false,
+	},
 	// better-auth prints to the console by default; send it through our logger so its logs
 	// are structured JSON like Fastify's.
 	logger: {
