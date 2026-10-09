@@ -5,6 +5,8 @@
 		"dev": "prisma generate && node --env-file-if-exists=.env --watch src/server.ts",
 		"build": "prisma generate && tsc -b",
 		"start": "node dist/server.js",
+		"test": "vitest run",
+		"test:watch": "vitest",
 		"db:generate": "prisma generate",
 		"db:migrate": "prisma migrate dev"
 	},
@@ -21,6 +23,7 @@
 	},
 	"devDependencies": {
 		"@types/node": "^24.19.1",
-		"prisma": "^7.10.0"
+		"prisma": "^7.10.0",
+		"vitest": "^5.0.3"
 	}
 }
